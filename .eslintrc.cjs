@@ -1,28 +1,35 @@
-module.exports = {
-  extends: [
-    "next",
-    "prettier",
-    "plugin:react/recommended",
-    "plugin:react-hooks/recommended",
-    "plugin:@typescript-eslint/recommended",
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const path = require('path');
+
+/** @type {import("eslint").Linter.Config} */
+const config = {
+  overrides: [
+    {
+      extends: [
+        'plugin:@typescript-eslint/recommended-requiring-type-checking',
+      ],
+      files: ['*.ts', '*.tsx'],
+      parserOptions: {
+        project: path.join(__dirname, 'tsconfig.json'),
+      },
+    },
   ],
-  parser: "@typescript-eslint/parser",
-  plugins: ["@typescript-eslint", "react", "react-hooks"],
-  rules: {
-    "react/react-in-jsx-scope": "off",
-    "@typescript-eslint/no-unused-vars": "error",
-  },
+  parser: '@typescript-eslint/parser',
   parserOptions: {
-    babelOptions: {
-      presets: [require.resolve("next/babel")],
-    },
-    ecmaFeatures: {
-      jsx: true,
-    },
+    project: path.join(__dirname, 'tsconfig.json'),
   },
-  settings: {
-    react: {
-      version: "detect",
-    },
+  plugins: ['@typescript-eslint'],
+  extends: ['next/core-web-vitals', 'plugin:@typescript-eslint/recommended'],
+  rules: {
+    '@typescript-eslint/consistent-type-imports': [
+      'warn',
+      {
+        prefer: 'type-imports',
+        fixStyle: 'inline-type-imports',
+      },
+    ],
+    '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
   },
 };
+
+module.exports = config;
